@@ -1,0 +1,294 @@
+
+[2025-08-17 14:47:15]
+✅ requests already installed.
+----------------------------------------
+
+[2025-08-17 14:47:15]
+📦 Installing beautifulsoup4 ...
+----------------------------------------
+
+[2025-08-17 14:47:15]
+❌ Failed to install library 'beautifulsoup4':
+Command '['.venv/bin/python3', '-m', 'pip', 'install', 'beautifulsoup4']' returned non-zero exit status 1.
+----------------------------------------
+
+[2025-08-17 14:47:26]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:47:26]
+✅ lxml already installed.
+----------------------------------------
+
+[2025-08-17 14:47:26]
+📜 Executing Code:
+import pandas as pd
+
+
+def get_table_summary_pandas(url):
+    try:
+        tables = pd.read_html(url)
+        # The main table is usually the first one.
+        df = tables[0]
+        summary = f"""Found table with pandas. Columns: {df.columns.tolist()}\nFirst 3 rows:\n{df.head(3).to_string()}"""
+        return summary
+    except Exception as e:
+        return f"Error scraping URL with pandas: {e}"
+
+
+url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+summary = get_table_summary_pandas(url)
+
+with open("uploads/b643ca28-393f-4763-9068-d57046d0d470/metadata.txt", "a") as f:
+    f.write(summary + "\n")
+
+print("Successfully extracted table summary using pandas and saved to metadata.txt")
+
+----------------------------------------
+
+[2025-08-17 14:47:30]
+✅ Code executed successfully:
+Successfully extracted table summary using pandas and saved to metadata.txt
+
+----------------------------------------
+
+[2025-08-17 14:47:38]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:47:38]
+✅ lxml already installed.
+----------------------------------------
+
+[2025-08-17 14:47:38]
+📜 Executing Code:
+import pandas as pd
+
+url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+try:
+    tables = pd.read_html(url)
+    df = tables[0]
+    df.to_csv(
+        "uploads/b643ca28-393f-4763-9068-d57046d0d470/highest_grossing_films.csv",
+        index=False,
+    )
+    with open("uploads/b643ca28-393f-4763-9068-d57046d0d470/metadata.txt", "a") as f:
+        f.write(
+            "Successfully downloaded and saved the full table to highest_grossing_films.csv\n"
+        )
+    print("Successfully downloaded data.")
+except Exception as e:
+    print(f"Error downloading data: {e}")
+
+----------------------------------------
+
+[2025-08-17 14:47:39]
+✅ Code executed successfully:
+Successfully downloaded data.
+
+----------------------------------------
+
+[2025-08-17 14:47:57]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:47:57]
+✅ numpy already installed.
+----------------------------------------
+
+[2025-08-17 14:47:57]
+✅ matplotlib already installed.
+----------------------------------------
+
+[2025-08-17 14:47:57]
+✅ seaborn already installed.
+----------------------------------------
+
+[2025-08-17 14:47:57]
+📜 Executing Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+import json
+
+
+def solve_questions():
+    try:
+        df = pd.read_csv(
+            "uploads/b643ca28-393f-4763-9068-d57046d0d470/highest_grossing_films.csv"
+        )
+
+        # Clean data
+        df["Worldwide gross"] = df["Worldwide gross"].replace(
+            {r"\$": "", ",": ""}, regex=True
+        )
+        # Handle potential bracketed references in the gross column
+        df["Worldwide gross"] = (
+            df["Worldwide gross"].str.extract(r"(\d+)").astype(float)
+        )
+        df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+        df = df.dropna(subset=["Worldwide gross", "Year"])
+
+        # 1. How many $2 bn movies were released before 2000?
+        movies_2bn_before_2000 = df[
+            (df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)
+        ]
+        answer1 = len(movies_2bn_before_2000)
+
+        # 2. Which is the earliest film that grossed over $1.5 bn?
+        movies_1_5bn = df[df["Worldwide gross"] >= 1_500_000_000]
+        earliest_film = movies_1_5bn.loc[movies_1_5bn["Year"].idxmin()]
+        answer2 = earliest_film["Title"]
+
+        # 3. What's the correlation between the Rank and Peak?
+        correlation = df["Rank"].corr(df["Peak"])
+        answer3 = correlation
+
+        # 4. Draw a scatterplot of Rank and Peak
+        plt.figure(figsize=(8, 6))
+        sns.regplot(
+            x="Rank",
+            y="Peak",
+            data=df,
+            scatter_kws={"alpha": 0.5},
+            line_kws={"color": "red", "linestyle": "--"},
+        )
+        plt.title("Rank vs. Peak of Highest-Grossing Films")
+        plt.xlabel("Rank")
+        plt.ylabel("Peak")
+        plt.grid(True)
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        image_base64 = base64.b64encode(buf.read()).decode("utf-8")
+        answer4 = f"data:image/png;base64,{image_base64}"
+        buf.close()
+        plt.close()
+
+        # Save results to JSON file
+        final_answers = [answer1, answer2, answer3, answer4]
+        with open("uploads/b643ca28-393f-4763-9068-d57046d0d470/result.json", "w") as f:
+            json.dump(final_answers, f)
+
+        print("Successfully answered all questions and saved to result.json")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+solve_questions()
+
+----------------------------------------
+
+[2025-08-17 14:48:01]
+✅ Code executed successfully:
+An error occurred: could not convert string to float: '24RK'
+
+----------------------------------------
+
+[2025-08-17 14:48:16]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:48:16]
+✅ numpy already installed.
+----------------------------------------
+
+[2025-08-17 14:48:16]
+✅ matplotlib already installed.
+----------------------------------------
+
+[2025-08-17 14:48:16]
+✅ seaborn already installed.
+----------------------------------------
+
+[2025-08-17 14:48:16]
+📜 Executing Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+import json
+
+
+def solve_questions():
+    try:
+        df = pd.read_csv(
+            "uploads/b643ca28-393f-4763-9068-d57046d0d470/highest_grossing_films.csv"
+        )
+
+        # Clean data
+        df["Worldwide gross"] = (
+            df["Worldwide gross"].astype(str).replace({r"\$": "", ",": ""}, regex=True)
+        )
+        df["Worldwide gross"] = (
+            df["Worldwide gross"]
+            .str.extract(r"(\d+\.?\d*)", expand=False)
+            .astype(float)
+        )
+        df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+        df.dropna(subset=["Worldwide gross", "Year", "Rank", "Peak"], inplace=True)
+        df["Rank"] = pd.to_numeric(df["Rank"], errors="coerce")
+        df["Peak"] = pd.to_numeric(df["Peak"], errors="coerce")
+
+        # 1. How many $2 bn movies were released before 2000?
+        movies_2bn_before_2000 = df[
+            (df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)
+        ]
+        answer1 = len(movies_2bn_before_2000)
+
+        # 2. Which is the earliest film that grossed over $1.5 bn?
+        movies_1_5bn = df[df["Worldwide gross"] >= 1_500_000_000]
+        earliest_film = movies_1_5bn.sort_values("Year").iloc[0]
+        answer2 = earliest_film["Title"]
+
+        # 3. What's the correlation between the Rank and Peak?
+        correlation = df["Rank"].corr(df["Peak"])
+        answer3 = correlation
+
+        # 4. Draw a scatterplot of Rank and Peak
+        plt.figure(figsize=(8, 6))
+        sns.regplot(
+            x="Rank",
+            y="Peak",
+            data=df,
+            scatter_kws={"alpha": 0.5},
+            line_kws={"color": "red", "linestyle": "--"},
+        )
+        plt.title("Rank vs. Peak of Highest-Grossing Films")
+        plt.xlabel("Rank")
+        plt.ylabel("Peak")
+        plt.grid(True)
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        image_base64 = base64.b64encode(buf.read()).decode("utf-8")
+        answer4 = f"data:image/png;base64,{image_base64}"
+        buf.close()
+        plt.close()
+
+        final_answers = [answer1, answer2, answer3, answer4]
+        with open("uploads/b643ca28-393f-4763-9068-d57046d0d470/result.json", "w") as f:
+            json.dump(final_answers, f)
+
+    except Exception as e:
+        # Write error to result file to indicate failure
+        with open("uploads/b643ca28-393f-4763-9068-d57046d0d470/result.json", "w") as f:
+            json.dump({"error": str(e)}, f)
+
+
+solve_questions()
+
+----------------------------------------
+
+[2025-08-17 14:48:18]
+✅ Code executed successfully:
+
+----------------------------------------

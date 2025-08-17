@@ -1,0 +1,7 @@
+Found table with pandas. Columns: ['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year', 'Ref']
+First 3 rows:
+   Rank Peak                     Title Worldwide gross  Year         Ref
+0     1    1                    Avatar  $2,923,706,026  2009  [# 1][# 2]
+1     2    1         Avengers: Endgame  $2,797,501,328  2019  [# 3][# 4]
+2     3    3  Avatar: The Way of Water  $2,320,250,281  2022  [# 5][# 6]
+Successfully downloaded and saved the full table to highest_grossing_films.csv

@@ -1,0 +1,41 @@
+2025-08-17 10:41:33,863 [INFO] Step-1: Folder created: uploads/92396e42-6ee1-475d-9742-363ce6e73cec
+2025-08-17 10:41:33,867 [INFO] Using Python executable: venv/bin/python3
+2025-08-17 10:41:33,867 [INFO] Step-2: File sent {'questions.txt': 'uploads/92396e42-6ee1-475d-9742-363ce6e73cec/question.txt', 'data.csv': 'uploads/92396e42-6ee1-475d-9742-363ce6e73cec/sales.csv'}
+2025-08-17 10:41:33,867 [INFO] 🤖 Step-1: Getting scrap code and metadata from llm. Tries count = 0
+2025-08-17 10:41:49,428 [INFO] 🤖 Step-1: Successfully parsed response from LLM.
+2025-08-17 10:41:49,429 [INFO] 💻 Step-3: Entering loop
+2025-08-17 10:41:49,429 [INFO] 💻 Loop-1: Running LLM code.
+2025-08-17 10:41:53,496 [INFO] ✅💻 Loop-1: Code executed successfully.
+2025-08-17 10:41:53,496 [INFO] 🤖 Loop-1: Inside Loop LLM call.
+2025-08-17 10:42:11,825 [INFO] 💻 Loop-2: Running LLM code.
+2025-08-17 10:42:14,532 [INFO] ✅💻 Loop-2: Code executed successfully.
+2025-08-17 10:42:14,533 [INFO] 🤖 Loop-2: Inside Loop LLM call.
+2025-08-17 10:42:30,593 [INFO] 💻 Loop-3: Running LLM code.
+2025-08-17 10:42:32,126 [INFO] ✅💻 Loop-3: Code executed successfully.
+2025-08-17 10:42:32,127 [INFO] ✅📁 Loop-3: Found result files.
+2025-08-17 10:42:32,127 [INFO] 🤖 Loop-3: Checking result validity.
+2025-08-17 10:43:16,976 [INFO] 💻 Loop-3: Re-running code as per validation result.
+2025-08-17 10:43:16,976 [INFO] 💻 Loop-4: Running LLM code.
+2025-08-17 10:43:18,933 [ERROR] ❌💻 Loop-4: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/92396e42-6ee1-475d-9742-363ce6e73cec/job_/script.py", line 26, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 10:43:18,933 [INFO] ✅📁 Loop-4: Found result files.
+2025-08-17 10:43:18,934 [INFO] 🤖 Loop-4: Checking result validity.
+2025-08-17 10:44:10,491 [INFO] 💻 Loop-4: Re-running code as per validation result.
+2025-08-17 10:44:10,492 [INFO] 💻 Loop-5: Running LLM code.
+2025-08-17 10:44:12,571 [ERROR] ❌💻 Loop-5: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/92396e42-6ee1-475d-9742-363ce6e73cec/job_/script.py", line 28, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 10:44:12,571 [INFO] ✅📁 Loop-5: Found result files.
+2025-08-17 10:44:12,571 [INFO] 🤖 Loop-5: Checking result validity.
+2025-08-17 10:44:49,845 [INFO] 💻 Loop-5: Re-running code as per validation result.
+2025-08-17 10:44:49,846 [INFO] 💻 Loop-6: Running LLM code.
+2025-08-17 10:44:51,429 [ERROR] ❌💻 Loop-6: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/92396e42-6ee1-475d-9742-363ce6e73cec/job_/script.py", line 26, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 10:44:51,430 [INFO] ✅📁 Loop-6: Found result files.
+2025-08-17 10:44:51,430 [INFO] 🤖 Loop-6: Checking result validity.
+2025-08-17 10:45:24,626 [INFO] 💻 Loop-6: Re-running code as per validation result.
+2025-08-17 10:45:24,627 [INFO] 💻 Loop-7: Running LLM code.
+2025-08-17 10:45:26,349 [ERROR] ❌💻 Loop-7: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/92396e42-6ee1-475d-9742-363ce6e73cec/job_/script.py", line 28, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 10:45:26,350 [INFO] ✅📁 Loop-7: Found result files.
+2025-08-17 10:45:26,351 [INFO] 🤖 Loop-7: Checking result validity.
+2025-08-17 10:46:07,717 [INFO] 💻 Loop-7: Re-running code as per validation result.
+2025-08-17 10:46:07,718 [INFO] 💻 Loop-8: Running LLM code.
+2025-08-17 10:46:09,355 [ERROR] ❌💻 Loop-8: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/92396e42-6ee1-475d-9742-363ce6e73cec/job_/script.py", line 27, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 10:46:09,358 [INFO] ✅📁 Loop-8: Found result files.
+2025-08-17 10:46:09,358 [INFO] 🤖 Loop-8: Checking result validity.

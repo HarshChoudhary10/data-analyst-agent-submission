@@ -1,0 +1,21 @@
+2025-08-17 14:46:58,369 [INFO] Step-1: Folder created: uploads/b643ca28-393f-4763-9068-d57046d0d470
+2025-08-17 14:46:58,373 [INFO] Using Python executable: .venv/bin/python3
+2025-08-17 14:46:58,373 [INFO] Step-2: File sent {'questions.txt': 'uploads/b643ca28-393f-4763-9068-d57046d0d470/question.txt', 'data.csv': 'uploads/b643ca28-393f-4763-9068-d57046d0d470/sales.csv'}
+2025-08-17 14:46:58,373 [INFO] 🤖 Step-1: Getting scrap code and metadata from llm. Tries count = 0
+2025-08-17 14:47:15,320 [INFO] 🤖 Step-1: Successfully parsed response from LLM.
+2025-08-17 14:47:15,320 [INFO] 💻 Step-3: Entering loop
+2025-08-17 14:47:15,321 [INFO] 💻 Loop-1: Running LLM code.
+2025-08-17 14:47:15,383 [ERROR] ❌💻 Loop-1: Code execution failed: ❌ Failed to install library 'beautifulsoup4': Command '['.venv/bin/python3', '-m', 'pip', 'install', 'beautifulsoup4']' returned non-zero exit status 1.
+2025-08-17 14:47:15,384 [INFO] 🤖 Loop-1: Inside Loop LLM call.
+2025-08-17 14:47:26,764 [INFO] 💻 Loop-2: Running LLM code.
+2025-08-17 14:47:30,084 [INFO] ✅💻 Loop-2: Code executed successfully.
+2025-08-17 14:47:30,085 [INFO] 🤖 Loop-2: Inside Loop LLM call.
+2025-08-17 14:47:38,037 [INFO] 💻 Loop-3: Running LLM code.
+2025-08-17 14:47:39,355 [INFO] ✅💻 Loop-3: Code executed successfully.
+2025-08-17 14:47:39,356 [INFO] 🤖 Loop-3: Inside Loop LLM call.
+2025-08-17 14:47:57,238 [INFO] 💻 Loop-4: Running LLM code.
+2025-08-17 14:48:01,774 [INFO] ✅💻 Loop-4: Code executed successfully.
+2025-08-17 14:48:01,774 [INFO] 🤖 Loop-4: Inside Loop LLM call.
+2025-08-17 14:48:16,055 [INFO] 💻 Step-6: Running final code.
+2025-08-17 14:48:18,348 [INFO] 📁 Step-7: Reading result.json
+2025-08-17 14:48:18,349 [INFO] ✅📁 Step-7: send result back

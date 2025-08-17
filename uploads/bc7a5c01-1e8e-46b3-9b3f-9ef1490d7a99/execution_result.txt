@@ -1,0 +1,716 @@
+
+[2025-08-17 14:19:16]
+✅ requests already installed.
+----------------------------------------
+
+[2025-08-17 14:19:16]
+📦 Installing beautifulsoup4 ...
+----------------------------------------
+
+[2025-08-17 14:19:17]
+📜 Executing Code:
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+response = requests.get(url)
+
+if response.status_code == 200:
+    soup = BeautifulSoup(response.content, "html.parser")
+    # Find the main table which is usually the first 'wikitable'
+    table = soup.find("table", {"class": "wikitable"})
+
+    if table:
+        headers = [th.get_text(strip=True) for th in table.find_all("th")]
+        first_row = [td.get_text(strip=True) for td in table.find("tr").find_all("td")]
+
+        summary = f"""Extracted table info from {url}\nHeaders: {headers}\nFirst Data Row Preview: {first_row}"""
+
+        with open(
+            "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "w"
+        ) as f:
+            f.write(summary)
+        print("Successfully extracted basic info and saved to metadata.txt")
+    else:
+        print("Could not find the main data table.")
+else:
+    print(f"Failed to fetch URL. Status code: {response.status_code}")
+
+----------------------------------------
+
+[2025-08-17 14:19:18]
+✅ Code executed successfully:
+Successfully extracted basic info and saved to metadata.txt
+
+----------------------------------------
+
+[2025-08-17 14:19:40]
+✅ requests already installed.
+----------------------------------------
+
+[2025-08-17 14:19:40]
+📦 Installing beautifulsoup4 ...
+----------------------------------------
+
+[2025-08-17 14:19:41]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:19:41]
+📜 Executing Code:
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import re
+
+url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+response = requests.get(url)
+response.raise_for_status()
+
+soup = BeautifulSoup(response.content, "html.parser")
+table = soup.find("table", {"class": "wikitable"})
+
+data = []
+# Find all rows in the table body, skipping the header row
+for row in table.tbody.find_all("tr")[1:]:
+    # Some rows are for sub-headings, not data. Data rows contain 'td' elements.
+    if row.find("td"):
+        # The title is in a 'th' scope="row" tag, other data in 'td'
+        cols = row.find_all(["th", "td"])
+
+        # Extract text and clean it
+        rank = cols[0].get_text(strip=True)
+        peak = cols[1].get_text(strip=True)
+        title = cols[2].get_text(strip=True)
+        worldwide_gross = cols[3].get_text(strip=True)
+        year = cols[4].get_text(strip=True)
+
+        # Clean up reference numbers like [1], [2]
+        title = re.sub(r"\[\w+\]$", "", title)
+        year = re.sub(r"\[\w+\]$", "", year)
+
+        # Remove formatting from gross revenue
+        worldwide_gross = re.sub(r"[^\d]", "", worldwide_gross)
+
+        data.append([rank, peak, title, worldwide_gross, year])
+
+# Create a DataFrame
+df = pd.DataFrame(data, columns=["Rank", "Peak", "Title", "Worldwide gross", "Year"])
+
+# Convert columns to appropriate numeric types
+df["Rank"] = pd.to_numeric(df["Rank"])
+df["Peak"] = pd.to_numeric(df["Peak"])
+df["Worldwide gross"] = pd.to_numeric(df["Worldwide gross"])
+df["Year"] = pd.to_numeric(df["Year"])
+
+# Save the DataFrame to a CSV file
+csv_path = "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv"
+df.to_csv(csv_path, index=False)
+
+# Append a confirmation to metadata.txt
+metadata_update = f"\nSuccessfully downloaded and processed the film data. Saved to {csv_path}.\nData has {df.shape[0]} rows and {df.shape[1]} columns."
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "a") as f:
+    f.write(metadata_update)
+
+print(f"Data saved to {csv_path}")
+
+----------------------------------------
+
+[2025-08-17 14:19:43]
+❌ Execution error:
+Traceback (most recent call last):
+  File "pandas/_libs/lib.pyx", line 2407, in pandas._libs.lib.maybe_convert_numeric
+ValueError: Unable to parse string "24RK"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 42, in <module>
+    df['Peak'] = pd.to_numeric(df['Peak'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/tools/numeric.py", line 235, in to_numeric
+    values, new_mask = lib.maybe_convert_numeric(  # type: ignore[call-overload]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/lib.pyx", line 2449, in pandas._libs.lib.maybe_convert_numeric
+ValueError: Unable to parse string "24RK" at position 32
+
+----------------------------------------
+
+[2025-08-17 14:20:18]
+✅ requests already installed.
+----------------------------------------
+
+[2025-08-17 14:20:18]
+📦 Installing beautifulsoup4 ...
+----------------------------------------
+
+[2025-08-17 14:20:19]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:20:19]
+📜 Executing Code:
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import re
+
+url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+response = requests.get(url)
+response.raise_for_status()
+
+soup = BeautifulSoup(response.content, "html.parser")
+table = soup.find("table", {"class": "wikitable"})
+
+data = []
+# Find all rows in the table body, skipping the header row
+for row in table.tbody.find_all("tr")[1:]:
+    # Ensure the row contains table data cells
+    if row.find("td"):
+        cols = row.find_all(["th", "td"])
+
+        # Extract text from each cell
+        rank = cols[0].get_text(strip=True)
+        peak = cols[1].get_text(strip=True)
+        title = cols[2].get_text(strip=True)
+        worldwide_gross = cols[3].get_text(strip=True)
+        year = cols[4].get_text(strip=True)
+
+        # Clean numeric fields by removing all non-digit characters
+        rank = re.sub(r"\\D", "", rank)
+        peak = re.sub(r"\\D", "", peak)
+        year = re.sub(r"\\D", "", year)
+        worldwide_gross = re.sub(r"\\D", "", worldwide_gross)
+
+        data.append([rank, peak, title, worldwide_gross, year])
+
+# Create a pandas DataFrame
+df = pd.DataFrame(data, columns=["Rank", "Peak", "Title", "Worldwide gross", "Year"])
+
+# Convert columns to numeric types. Use errors='coerce' to turn non-parsable strings into NaN
+df["Rank"] = pd.to_numeric(df["Rank"], errors="coerce")
+df["Peak"] = pd.to_numeric(df["Peak"], errors="coerce")
+df["Worldwide gross"] = pd.to_numeric(df["Worldwide gross"], errors="coerce")
+df["Year"] = pd.to_numeric(df["Year"], errors="coerce")
+
+# Drop any rows that have NaN values after conversion to ensure data quality
+df.dropna(inplace=True)
+
+# Convert columns to integer types for cleaner data
+df[["Rank", "Peak", "Year"]] = df[["Rank", "Peak", "Year"]].astype(int)
+
+# Save the cleaned DataFrame to a CSV file
+csv_path = "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv"
+df.to_csv(csv_path, index=False)
+
+# Append a confirmation message to the metadata file
+metadata_update = f"""\nSuccessfully downloaded and cleaned the film data. Saved to {csv_path}.
+Cleaned data has {df.shape[0]} rows and {df.shape[1]} columns."""
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "a") as f:
+    f.write(metadata_update)
+
+print(f"Cleaned data saved to {csv_path}")
+
+----------------------------------------
+
+[2025-08-17 14:20:21]
+✅ Code executed successfully:
+Cleaned data saved to uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv
+
+----------------------------------------
+
+[2025-08-17 14:21:15]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:21:15]
+✅ numpy already installed.
+----------------------------------------
+
+[2025-08-17 14:21:15]
+✅ matplotlib already installed.
+----------------------------------------
+
+[2025-08-17 14:21:15]
+✅ seaborn already installed.
+----------------------------------------
+
+[2025-08-17 14:21:15]
+✅ lxml already installed.
+----------------------------------------
+
+[2025-08-17 14:21:15]
+📜 Executing Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+import json
+
+# --- Data Loading and Cleaning ---
+try:
+    df = pd.read_csv(
+        "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv"
+    )
+    if df.empty:
+        raise FileNotFoundError
+except (FileNotFoundError, pd.errors.EmptyDataError):
+    print("CSV not found or empty. Re-downloading and processing data...")
+    url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+    tables = pd.read_html(url, attrs={"class": "wikitable"})
+    df = tables[0]
+
+    # Select and rename columns we need
+    df = df[["Rank", "Peak", "Title", "Worldwide gross", "Year"]]
+
+    # Clean the 'Worldwide gross' column
+    df["Worldwide gross"] = (
+        df["Worldwide gross"]
+        .astype(str)
+        .str.replace(r"\$", "", regex=True)
+        .str.replace(r",", "", regex=True)
+    )
+    df["Worldwide gross"] = df["Worldwide gross"].str.split(r"\[", expand=True)[0]
+
+    # Clean the 'Year' column by extracting the first 4-digit number
+    df["Year"] = df["Year"].astype(str).str.extract(r"(\d{4})")
+
+    # Convert columns to numeric, coercing errors to NaN
+    cols_to_numeric = ["Rank", "Peak", "Worldwide gross", "Year"]
+    for col in cols_to_numeric:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    df.dropna(subset=cols_to_numeric, inplace=True)
+
+    # Cast to integer types where appropriate
+    for col in ["Rank", "Peak", "Year"]:
+        df[col] = df[col].astype(int)
+
+    df.to_csv(
+        "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv",
+        index=False,
+    )
+
+# --- Analysis ---
+
+# 1. How many $2 bn movies were released before 2000?
+movies_2bn_before_2000 = df[
+    (df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)
+]
+answer1 = len(movies_2bn_before_2000)
+
+# 2. Which is the earliest film that grossed over $1.5 bn?
+movies_1_5bn = df[df["Worldwide gross"] >= 1_500_000_000]
+earliest_film = movies_1_5bn.loc[movies_1_5bn["Year"].idxmin()]
+answer2 = earliest_film["Title"]
+
+# 3. What's the correlation between the Rank and Peak?
+correlation = df["Rank"].corr(df["Peak"])
+answer3 = correlation
+
+# 4. Draw a scatterplot of Rank and Peak
+plt.figure(figsize=(8, 6))
+sns.regplot(
+    data=df,
+    x="Rank",
+    y="Peak",
+    scatter_kws={"alpha": 0.5},
+    line_kws={"color": "red", "linestyle": "--"},
+)
+plt.title("Rank vs. Peak of Highest-Grossing Films")
+plt.xlabel("Overall Rank")
+plt.ylabel("Peak Rank")
+plt.grid(True)
+
+buf = io.BytesIO()
+plt.savefig(buf, format="png", bbox_inches="tight")
+buf.seek(0)
+image_base64 = base64.b64encode(buf.read()).decode("utf-8")
+answer4 = f"data:image/png;base64,{image_base64}"
+buf.close()
+
+final_answers = [answer1, answer2, answer3, answer4]
+
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json", "w") as f:
+    json.dump(final_answers, f)
+
+analysis_summary = f"""\n--- Analysis Summary ---\n1. Number of $2bn+ films before 2000: {answer1}\n2. Earliest $1.5bn+ film: {answer2}\n3. Correlation between Rank and Peak: {answer3:.4f}\n4. Scatterplot generated and saved."""
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "a") as f:
+    f.write(analysis_summary)
+
+print(
+    "Analysis complete. Results saved to uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json"
+)
+
+----------------------------------------
+
+[2025-08-17 14:21:17]
+❌ Execution error:
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 13, in <module>
+    raise FileNotFoundError
+FileNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 21, in <module>
+    df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']]
+         ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+
+----------------------------------------
+
+[2025-08-17 14:21:48]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:21:48]
+✅ numpy already installed.
+----------------------------------------
+
+[2025-08-17 14:21:48]
+✅ matplotlib already installed.
+----------------------------------------
+
+[2025-08-17 14:21:48]
+✅ seaborn already installed.
+----------------------------------------
+
+[2025-08-17 14:21:48]
+✅ lxml already installed.
+----------------------------------------
+
+[2025-08-17 14:21:48]
+📜 Executing Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+import json
+
+# --- Data Loading and Cleaning ---
+try:
+    # Attempt to load the pre-processed CSV file.
+    df = pd.read_csv(
+        "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv"
+    )
+    # If the file is empty, trigger the download process.
+    if df.empty:
+        raise FileNotFoundError
+except (FileNotFoundError, pd.errors.EmptyDataError):
+    print(
+        "CSV file not found or is empty. Re-downloading and processing data from Wikipedia..."
+    )
+    url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+    # Use pandas to read HTML tables directly from the URL.
+    tables = pd.read_html(url, attrs={"class": "wikitable"})
+    df = tables[0]
+
+    # --- FIX for KeyError ---
+    # To avoid errors from unpredictable column names parsed by read_html,
+    # select the first 5 columns by position and assign standard names.
+    df = df.iloc[:, :5]
+    df.columns = ["Rank", "Peak", "Title", "Worldwide gross", "Year"]
+
+    # --- Data Cleaning ---
+    # Clean the 'Worldwide gross' column: remove '$', ',', and bracketed references.
+    df["Worldwide gross"] = (
+        df["Worldwide gross"]
+        .astype(str)
+        .str.replace(r"\$", "", regex=True)
+        .str.replace(r",", "", regex=True)
+    )
+    df["Worldwide gross"] = df["Worldwide gross"].str.split(r"\[", expand=True)[0]
+
+    # Clean the 'Year' column: extract the first 4-digit number.
+    df["Year"] = df["Year"].astype(str).str.extract(r"(\d{4})")
+
+    # Convert columns to numeric types, coercing any conversion errors into Not-a-Number (NaN).
+    cols_to_numeric = ["Rank", "Peak", "Worldwide gross", "Year"]
+    for col in cols_to_numeric:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # Remove any rows that have NaN values in the essential numeric columns.
+    df.dropna(subset=cols_to_numeric, inplace=True)
+
+    # Cast appropriate columns to integer types for clean calculations.
+    for col in ["Rank", "Peak", "Year"]:
+        df[col] = df[col].astype(int)
+
+    # Save the cleaned data to a CSV for future use.
+    df.to_csv(
+        "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv",
+        index=False,
+    )
+
+# --- Analysis ---
+
+# 1. How many $2 bn movies were released before 2000?
+movies_2bn_before_2000 = df[
+    (df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)
+]
+answer1 = len(movies_2bn_before_2000)
+
+# 2. Which is the earliest film that grossed over $1.5 bn?
+movies_1_5bn = df[df["Worldwide gross"] >= 1_500_000_000]
+earliest_film = movies_1_5bn.loc[movies_1_5bn["Year"].idxmin()]
+answer2 = earliest_film["Title"]
+
+# 3. What's the correlation between the Rank and Peak?
+correlation = df["Rank"].corr(df["Peak"])
+answer3 = correlation
+
+# 4. Draw a scatterplot of Rank and Peak
+plt.figure(figsize=(8, 6))
+sns.regplot(
+    data=df,
+    x="Rank",
+    y="Peak",
+    scatter_kws={"alpha": 0.5},
+    line_kws={"color": "red", "linestyle": "--"},
+)
+plt.title("Rank vs. Peak of Highest-Grossing Films")
+plt.xlabel("Overall Rank")
+plt.ylabel("Peak Rank")
+plt.grid(True)
+
+# Save the plot to a memory buffer and encode it as a base64 string.
+buf = io.BytesIO()
+plt.savefig(buf, format="png", bbox_inches="tight")
+buf.seek(0)
+image_base64 = base64.b64encode(buf.read()).decode("utf-8")
+answer4 = f"data:image/png;base64,{image_base64}"
+buf.close()
+
+# Compile the final answers into a list.
+final_answers = [answer1, answer2, answer3, answer4]
+
+# Save the final answers to a JSON file.
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json", "w") as f:
+    json.dump(final_answers, f)
+
+# Append a summary of the analysis to the metadata file for context.
+analysis_summary = f"""\n--- Analysis Summary ---\n1. Number of $2bn+ films before 2000: {answer1}\n2. Earliest $1.5bn+ film: {answer2}\n3. Correlation between Rank and Peak: {answer3:.4f}\n4. Scatterplot generated and saved."""
+with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "a") as f:
+    f.write(analysis_summary)
+
+print(
+    "Analysis complete. Results saved to uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json"
+)
+
+----------------------------------------
+
+[2025-08-17 14:21:50]
+❌ Execution error:
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 15, in <module>
+    raise FileNotFoundError
+FileNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/range.py", line 413, in get_loc
+    return self._range.index(new_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: 0 is not in range
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 32, in <module>
+    df['Worldwide gross'] = df['Worldwide gross'].str.split(r'\[', expand=True)[0]
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4107, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/range.py", line 415, in get_loc
+    raise KeyError(key) from err
+KeyError: 0
+
+----------------------------------------
+
+[2025-08-17 14:22:22]
+✅ pandas already installed.
+----------------------------------------
+
+[2025-08-17 14:22:22]
+✅ numpy already installed.
+----------------------------------------
+
+[2025-08-17 14:22:22]
+✅ matplotlib already installed.
+----------------------------------------
+
+[2025-08-17 14:22:22]
+✅ seaborn already installed.
+----------------------------------------
+
+[2025-08-17 14:22:22]
+✅ requests already installed.
+----------------------------------------
+
+[2025-08-17 14:22:22]
+📦 Installing beautifulsoup4 ...
+----------------------------------------
+
+[2025-08-17 14:22:23]
+📜 Executing Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+import json
+import requests
+from bs4 import BeautifulSoup
+import re
+
+
+def solve_and_generate_output():
+    """
+    A single, robust function to scrape, clean, analyze, and save the results.
+    This avoids issues with corrupted intermediate files from previous failed steps.
+    """
+    # --- Step 1: Scrape and Parse Data from Wikipedia ---
+    url = "https://en.wikipedia.org/wiki/List_of_highest-grossing_films"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Failed to fetch URL: {e}")
+        return
+
+    soup = BeautifulSoup(response.content, "html.parser")
+    # Find the first sortable wikitable, which is the main table.
+    table = soup.find("table", {"class": "wikitable"})
+
+    if not table:
+        print("Could not find the data table on the page.")
+        return
+
+    scraped_data = []
+    # Iterate over all table rows, skipping the header row (index 0)
+    for row in table.find_all("tr")[1:]:
+        # The title is in a 'th' cell, others in 'td's
+        cells = row.find_all(["th", "td"])
+        if len(cells) >= 5:
+            rank = cells[0].get_text(strip=True)
+            peak = cells[1].get_text(strip=True)
+            title = cells[2].get_text(strip=True)
+            gross = cells[3].get_text(strip=True)
+            year = cells[4].get_text(strip=True)
+            scraped_data.append([rank, peak, title, gross, year])
+
+    # --- Step 2: Create DataFrame and Clean Data ---
+    df = pd.DataFrame(
+        scraped_data, columns=["Rank", "Peak", "Title", "Worldwide gross", "Year"]
+    )
+
+    # Clean numeric columns by removing any non-digit characters
+    df["Worldwide gross"] = df["Worldwide gross"].str.replace(r"[^\d]", "", regex=True)
+    df["Year"] = df["Year"].str.extract(r"(\d{4})")  # Extract the first 4-digit year
+
+    # Convert columns to numeric types, coercing errors to NaN
+    for col in ["Rank", "Peak", "Worldwide gross", "Year"]:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # Drop rows where any of the numeric conversions failed
+    df.dropna(inplace=True)
+
+    # Cast to appropriate integer types
+    df[["Rank", "Peak", "Year"]] = df[["Rank", "Peak", "Year"]].astype(int)
+
+    # Save a clean copy for verification
+    df.to_csv(
+        "uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/highest_grossing_films.csv",
+        index=False,
+    )
+
+    # --- Step 3: Perform Analysis ---
+
+    # Q1: How many $2 bn movies were released before 2000?
+    movies_2bn_before_2000 = df[
+        (df["Worldwide gross"] >= 2_000_000_000) & (df["Year"] < 2000)
+    ]
+    answer1 = len(movies_2bn_before_2000)
+
+    # Q2: Which is the earliest film that grossed over $1.5 bn?
+    movies_1_5bn = df[df["Worldwide gross"] >= 1_500_000_000]
+    answer2 = "None found"  # Default answer
+    if not movies_1_5bn.empty:
+        earliest_film = movies_1_5bn.loc[movies_1_5bn["Year"].idxmin()]
+        answer2 = earliest_film["Title"]
+
+    # Q3: What's the correlation between the Rank and Peak?
+    answer3 = df["Rank"].corr(df["Peak"])
+
+    # Q4: Draw a scatterplot of Rank and Peak
+    plt.figure(figsize=(8, 6))
+    sns.regplot(
+        data=df,
+        x="Rank",
+        y="Peak",
+        scatter_kws={"alpha": 0.5},
+        line_kws={"color": "red", "linestyle": "--"},
+    )
+    plt.title("Rank vs. Peak of Highest-Grossing Films")
+    plt.xlabel("Overall Rank")
+    plt.ylabel("Peak Rank")
+    plt.grid(True)
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png", bbox_inches="tight")
+    buf.seek(0)
+    image_base64 = base64.b64encode(buf.read()).decode("utf-8")
+    answer4 = f"data:image/png;base64,{image_base64}"
+    plt.close()
+
+    # --- Step 4: Save Final Output ---
+    final_answers = [answer1, answer2, answer3, answer4]
+
+    with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json", "w") as f:
+        json.dump(final_answers, f)
+
+    metadata_summary = f"""\n--- Fresh Analysis Summary ---\n1. Number of $2bn+ films before 2000: {answer1}\n2. Earliest $1.5bn+ film: {answer2}\n3. Correlation between Rank and Peak: {answer3:.4f}\n4. Scatterplot generated and saved."""
+    with open("uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/metadata.txt", "a") as f:
+        f.write(metadata_summary)
+
+    print(
+        "Analysis complete. Results saved to uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json"
+    )
+
+
+# Execute the main function
+solve_and_generate_output()
+
+----------------------------------------
+
+[2025-08-17 14:22:25]
+✅ Code executed successfully:
+Analysis complete. Results saved to uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/result.json
+
+----------------------------------------
+
+[2025-08-17 14:22:36]
+📜 Executing Code:
+
+----------------------------------------
+
+[2025-08-17 14:22:36]
+✅ Code executed successfully:
+
+----------------------------------------

@@ -1,0 +1,29 @@
+2025-08-17 14:19:00,317 [INFO] Step-1: Folder created: uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99
+2025-08-17 14:19:00,321 [INFO] Using Python executable: venv/bin/python3
+2025-08-17 14:19:00,321 [INFO] Step-2: File sent {'questions.txt': 'uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/question.txt', 'data.csv': 'uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/sales.csv'}
+2025-08-17 14:19:00,321 [INFO] 🤖 Step-1: Getting scrap code and metadata from llm. Tries count = 0
+2025-08-17 14:19:16,050 [INFO] 🤖 Step-1: Successfully parsed response from LLM.
+2025-08-17 14:19:16,051 [INFO] 💻 Step-3: Entering loop
+2025-08-17 14:19:16,051 [INFO] 💻 Loop-1: Running LLM code.
+2025-08-17 14:19:18,556 [INFO] ✅💻 Loop-1: Code executed successfully.
+2025-08-17 14:19:18,557 [INFO] 🤖 Loop-1: Inside Loop LLM call.
+2025-08-17 14:19:40,930 [INFO] 💻 Loop-2: Running LLM code.
+2025-08-17 14:19:43,699 [ERROR] ❌💻 Loop-2: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "pandas/_libs/lib.pyx", line 2407, in pandas._libs.lib.maybe_convert_numeric ValueError: Unable to parse string "24RK" During handling of the above exception, another exception occurred: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 42, in <module> df['Peak'] = pd.to_numeric(df['Peak']) ^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/tools/numeric.py", line 235, in to_numeric values, new_mask = lib.maybe_convert_numeric( # type: ignore[call-overload] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "pandas/_libs/lib.pyx", line 2449, in pandas._libs.lib.maybe_convert_numeric ValueError: Unable to parse string "24RK" at position 32
+2025-08-17 14:19:43,700 [INFO] 🤖 Loop-2: Inside Loop LLM call.
+2025-08-17 14:20:18,958 [INFO] 💻 Loop-3: Running LLM code.
+2025-08-17 14:20:21,548 [INFO] ✅💻 Loop-3: Code executed successfully.
+2025-08-17 14:20:21,548 [INFO] 🤖 Loop-3: Inside Loop LLM call.
+2025-08-17 14:21:15,656 [INFO] 💻 Loop-4: Running LLM code.
+2025-08-17 14:21:17,618 [ERROR] ❌💻 Loop-4: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 13, in <module> raise FileNotFoundError FileNotFoundError During handling of the above exception, another exception occurred: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 21, in <module> df = df[['Rank', 'Peak', 'Title', 'Worldwide gross', 'Year']] ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__ indexer = self.columns._get_indexer_strict(key, "columns")[1] ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict self._raise_if_missing(keyarr, indexer, axis_name) File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing raise KeyError(f"{not_found} not in index") KeyError: "['Peak', 'Title', 'Worldwide gross', 'Year'] not in index"
+2025-08-17 14:21:17,619 [INFO] 🤖 Loop-4: Inside Loop LLM call.
+2025-08-17 14:21:48,823 [INFO] 💻 Loop-5: Running LLM code.
+2025-08-17 14:21:50,383 [ERROR] ❌💻 Loop-5: Code execution failed: ❌ Execution error: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 15, in <module> raise FileNotFoundError FileNotFoundError During handling of the above exception, another exception occurred: Traceback (most recent call last): File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/range.py", line 413, in get_loc return self._range.index(new_key) ^^^^^^^^^^^^^^^^^^^^^^^^^^ ValueError: 0 is not in range The above exception was the direct cause of the following exception: Traceback (most recent call last): File "/home/azureuser/TDS_project2/uploads/bc7a5c01-1e8e-46b3-9b3f-9ef1490d7a99/job_/script.py", line 32, in <module> df['Worldwide gross'] = df['Worldwide gross'].str.split(r'\[', expand=True)[0] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/frame.py", line 4107, in __getitem__ indexer = self.columns.get_loc(key) ^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/azureuser/TDS_project2/venv/lib/python3.11/site-packages/pandas/core/indexes/range.py", line 415, in get_loc raise KeyError(key) from err KeyError: 0
+2025-08-17 14:21:50,384 [INFO] 🤖 Loop-5: Inside Loop LLM call.
+2025-08-17 14:22:22,367 [INFO] 💻 Loop-6: Running LLM code.
+2025-08-17 14:22:25,700 [INFO] ✅💻 Loop-6: Code executed successfully.
+2025-08-17 14:22:25,700 [INFO] ✅📁 Loop-6: Found result files.
+2025-08-17 14:22:25,701 [INFO] 🤖 Loop-6: Checking result validity.
+2025-08-17 14:22:36,609 [INFO] ✅ Loop-6: Validation successful, no re-run needed.
+2025-08-17 14:22:36,609 [INFO] 💻 Step-6: Running final code.
+2025-08-17 14:22:36,640 [INFO] 📁 Step-7: Reading result.json
+2025-08-17 14:22:36,641 [INFO] ✅📁 Step-7: send result back
